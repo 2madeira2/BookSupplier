@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<books>
+<book>
+    <title>Test1</title>
+    <year>1954</year>
+    <description>Test2</description>
+    <authors>
+        <author>
+            <surname>Test</surname>
+            <name>Dos</name>
+            <patronymic>Test</patronymic>
+            <birthDate>2022-12-12</birthDate>
+        </author>
+    </authors>
+    <genres>
+        <genre>
+            <name>Criminal</name>
+        </genre>
+    </genres>
+</book>
+    <book>
+        <title>Test1</title>
+        <year>1954</year>
+        <description>Test2</description>
+    </book>
+</books>
