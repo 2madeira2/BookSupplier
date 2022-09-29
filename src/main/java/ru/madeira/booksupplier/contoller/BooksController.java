@@ -20,7 +20,7 @@ public class BooksController {
     }
 
     @GetMapping("/updateBooksInLibrary")
-    public void updateBooksInLibrary(@RequestParam (defaultValue = "false") Boolean fromInternet) throws IOException, JAXBException {
-        this.bookService.updateBooksInLibrary(fromInternet);
+    public void updateBooksInLibrary(@RequestParam (defaultValue = "false") Boolean fromInternet, @RequestParam (defaultValue = "false") Boolean withKafka) throws IOException, JAXBException {
+        this.bookService.updateBooksInLibrary(fromInternet, withKafka);
     }
 }

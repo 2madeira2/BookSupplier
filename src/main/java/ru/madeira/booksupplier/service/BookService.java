@@ -1,8 +1,11 @@
 package ru.madeira.booksupplier.service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.madeira.booksupplier.api.BooksServiceApiClient;
+import ru.madeira.booksupplier.api.BookSupplierApiClient;
+import ru.madeira.booksupplier.api.BooksConsumerApiClient;
 import ru.madeira.booksupplier.model.Book;
 import ru.madeira.booksupplier.util.xml.JaxbXmlConverter;
 import ru.madeira.booksupplier.util.xml.wrapper.Books;
@@ -15,19 +18,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookService {
 
     private final ProducerService producerService;
-    private final BooksServiceApiClient booksServiceApiClient;
+    private final BooksConsumerApiClient booksConsumerApiClient;
+    private final BookSupplierApiClient bookSupplierApiClient;
     private final JaxbXmlConverter jaxbXmlConverter;
 
-    private final static String fileAbsolutePath = "C:\\Users\\dmitr\\Desktop\\BookSupplier\\src\\main\\resources\\books.xml";
+    @Value("${book.forgetting.file-path}")
+    private String fileAbsolutePath;
 
-    public void updateBooksInLibrary(Boolean fromInternet) throws IOException, JAXBException {
+    public void updateBooksInLibrary(Boolean fromInternet, Boolean withKafka) throws IOException, JAXBException {
         String producerString;
         if (fromInternet) {
-            List<Book> books = booksServiceApiClient.getBooks();
+            List<Book> books = booksConsumerApiClient.getBooks();
             System.out.println(books);
             Books booksWrapper = new Books();
             booksWrapper.setBooks(books);
@@ -36,7 +41,11 @@ public class BookService {
         } else {
             producerString = Files.lines(Paths.get(fileAbsolutePath)).collect(Collectors.joining());
         }
-        producerService.sendMessage(producerString);
+        if (withKafka) {
+            producerService.sendMessage(producerString);
+        } else {
+            bookSupplierApiClient.sendXmlBooks(producerString);
+        }
     }
 
 }

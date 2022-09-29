@@ -6,8 +6,8 @@ import ru.madeira.booksupplier.model.Book;
 
 import java.util.List;
 
-@FeignClient(value = "booksData", url = "https://jsonkeeper.com/b/AJGT")
-public interface BooksServiceApiClient {
+@FeignClient(value = "booksData", url = "${book.forgetting.url-address}")
+public interface BooksConsumerApiClient {
     @GetMapping
     List<Book> getBooks();
 }

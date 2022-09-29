@@ -4,5 +4,12 @@ spring:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  application:
+    name: book_supplier
 server:
   port: 8083
+
+book:
+  forgetting:
+    url-address: https://api.jsonserve.com/53JcGp
+    file-path: C:\Users\dmitr\Desktop\BookSupplier\src\main\resources\books.xml
